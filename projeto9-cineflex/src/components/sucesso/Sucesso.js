@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
+import axios from "axios";
 
 import pedido from "../../global/pedido";
 import "./estilos.css";
@@ -13,6 +14,19 @@ export default function Sucesso() {
         {descricao: "Assentos", info: [...pedido.reserva.ids]},
         {descricao: "Comprador", info: [`Nome: ${pedido.reserva.name}`, `CPF: ${pedido.reserva.cpf}`]}
     ]
+
+    function enviarDados() {
+        // fazer o post
+        const promisse = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {
+            ids: [...pedido.reserva.ids],
+            name: pedido.reserva.name,
+            cpf: pedido.reserva.cpf
+        })
+        promisse
+            .then(() => alert("Reserva feita com Sucesso"))
+            .catch(() => alert("Erro de reserva, olhe novamente e preencha os campos."))
+        // resetar os valores de pedido
+    }
 
 
     //render
@@ -30,8 +44,8 @@ export default function Sucesso() {
                         </div>
                     })}
                 <Button>
-                    <Link to="/">
-                        <div>Voltar para a Home</div>
+                    <Link to="/sucesso">
+                        <div onClick={enviarDados}>Voltar para a Home</div>
                     </Link>
                 </Button>
             </RegiaoSucesso>

@@ -5,8 +5,8 @@ let pedido = {
     dataFilme: "",
     reserva:{
         ids: [],
-        name: "Fulano",
-        cpf: "12345678900"
+        name: "Anônimo",
+        cpf: "Não informado"
     }
 }
 
