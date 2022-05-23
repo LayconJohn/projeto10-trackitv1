@@ -14,12 +14,14 @@ function Sessao({sessoes, valor}) {
     return (
         <div className="sessao" key={valor.id}>
             <p>{`${valor.weekday} - ${valor.date}`}</p>
-            <Link to={`/sessao/${sessoes.id}`}>
-                <div className="horarios">
-                    <div>{valor.showtimes[0].name}</div>
-                    <div>{valor.showtimes[1].name}</div>
-                </div>
-            </Link>
+                <Horarios>
+                    <Link to={`/sessao/${valor.showtimes[0].id}`}>
+                        <div>{valor.showtimes[0].name}</div>
+                    </Link>
+                    <Link to={`/sessao/${valor.showtimes[1].id}`}>
+                        <div>{valor.showtimes[1].name}</div>
+                    </Link>
+                </Horarios>
         </div> 
     )
 }
@@ -86,3 +88,24 @@ const RegiaoSessoes = styled.main`
         margin: 20px 0px;
     }
 `
+
+const Horarios = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+
+    div {
+        width: 83px;
+        height: 43px;
+        background-color: #E8833A;
+        color: white;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 4px 8px 4px 0px;
+
+        box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 3px;
+    }
+`;
