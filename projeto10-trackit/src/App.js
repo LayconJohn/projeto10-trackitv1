@@ -10,10 +10,10 @@ import TelaHoje from "./telas/TelaHoje";
 import TelaHistorico from "./telas/TelaLogin";
 
 export default function App() {
-    const [token, setToken] = useState(null);
+    const [user, setUser] = useState({});
    
     return (
-        <UserContext.Provider value={{token, setToken}}>
+        <UserContext.Provider value={{user, setUser}}>
             <BrowserRouter>
                 <Routes>
                     <Route path={"/"} element={<TelaLogin />} />

@@ -14,7 +14,7 @@ export default function TelaLogin() {
     const [senha, setSenha] = useState("");
     const [input, setInput] = useState(false);
     
-    const {token, setToken} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
 
     //logic
     let navigate = useNavigate();
@@ -29,13 +29,14 @@ export default function TelaLogin() {
         })
         promisse
             .then((response) => {
-                setToken(response.data.token);
-                setInput(false)
+                setUser(response.data);
+                console.log(response.data)
+                navigate("/habitos")
             })
             .catch((err) => {
                 alert("Dados de Login incorretos. Preencha novamente!")
             })
-        navigate("/habitos")
+        setInput(false)
     }
 
     //render
