@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from "axios";
 import { render } from 'react-dom'
 
+import Logo from '../componentes/Logo';
 
 export default function TelaCadastro() {
     //Estado
@@ -38,14 +39,7 @@ export default function TelaCadastro() {
     //render
     return (
         <Tela>
-            <Logo>
-                <div>
-                    <div className='verde-inicio'></div>
-                    <div className='vermelho'></div>
-                    <div className='verde-final'></div>
-                </div>
-                <h1>TrackIt</h1>
-            </Logo>
+            <Logo />
             <Forms>
                 <form>
                     <input 
@@ -76,7 +70,7 @@ export default function TelaCadastro() {
                         disabled={input}
                         onChange={(e) => setFoto(e.target.value)}
                     />
-                    <button onClick={(event) => submitCadastro(event)}>Cadastrar</button>
+                    <button onClick={(event) => submitCadastro(event)} disabled={input} >Cadastrar</button>
                 </form>
                 <Link to={"/"}>
                     <p>Já tem uma conta? Faça login!</p>
@@ -95,47 +89,6 @@ const Tela = styled.div`
 
 `
 
-const Logo = styled.div`
-    width: 180px;
-    height: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 0 auto;
-    margin-top: 68px;
-    margin-bottom: 26px;
-
-    div {
-        display: flex;
-        align-items: flex-end;
-    }
-
-    .verde-inicio {
-        width: 18px;
-        height: 22px;
-        background-color: #8FC549;
-    }
-
-    .vermelho {
-        width: 18px;
-        height: 42px;
-        background-color: #E75766;
-    }
-
-    .verde-final {
-        width: 18px;
-        height: 64px;
-        background-color: #8FC549;
-    }
-
-    h1 {
-        font-family: Playball;
-        font-size: 69px;
-        text-align: center;
-        color: #126BA5;
-    }
-`
 
 
 const Forms = styled.div`
