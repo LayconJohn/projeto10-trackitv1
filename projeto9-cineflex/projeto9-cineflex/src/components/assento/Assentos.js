@@ -46,13 +46,8 @@ export default function Assentos() {
         setCpf("");
     }
 
-    function selecionarAssento(index, assento) {
-        if (assento.isAvailable) {
-            setSelecionado()
-            pedido.reserva.ids.push(index + 1)
-        } else {
-            alert("Assento indisponível. Por favor, selecione outro")
-        }
+    function selecionarAssento(index) {
+        console.log(index + 1)
     }
     
 
@@ -64,7 +59,7 @@ export default function Assentos() {
                 {assentos.length === 0 ? <Loading /> : 
                     <SelecionarAssentos>
                         {assentos.map( (assento, index) => {
-                            return <div onClick={() => {selecionarAssento(index, assento)}} className={`assento ${assento.isAvailable ? "disponivel" : "indisponivel"} ${selecionado ? "selecionado" : ""}`} key={index}>{assento.name}</div>
+                            return <div onClick={() => {console.log(`Teste: ${assento.isAvailable ? pedido.reserva.ids.push(index + 1) : alert("Assento indisponível. Por favor, selecione outro")} `)}} className={`assento ${assento.isAvailable ? "disponivel" : "indisponivel"} ${selecionado ? "selecionado" : ""}`} key={index}>{assento.name}</div>
                         })}
                     </SelecionarAssentos>
                 }
