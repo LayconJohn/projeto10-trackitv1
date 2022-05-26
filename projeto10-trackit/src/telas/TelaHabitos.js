@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 
 import UserContext from '../context/UserContext';
 
-const dias = ["D", "S", "T", "Q", "Q", "S", "S"];
+const dias = [{id: "1", dia: "D", selecionado: false}, {id: "2", dia: "S", selecionado: false}, {id: "3", dia: "T", selecionado: false}, {id: "4", dia: "Q", selecionado: false}, {id: "5", dia: "Q", selecionado: false}, {id: "6", dia: "S", selecionado: false}, {id: "7", dia: "S", selecionado: false}]; // transformar um objeto pra saber se tá selecionado
 
 function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
     //Estado
@@ -11,15 +11,24 @@ function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
 
     //logic
     function selecionarDia() {
-        setSelecionado(!selecionado)
-        if (!diasSelecionados.includes(index + 1)) {
-            setDiasSelecionados([...diasSelecionados, (index + 1)])
+        if (dia.selecionado) {
+            setSelecionado(!selecionado);
+            if (diasSelecionados.includes(dia.id)) {
+                setSelecionado(!selecionado);
+                dia.selecionado = false;
+            } else {
+                dia.selecionado = true;
+            }
+            
+        } else {
+            setSelecionado(!selecionado);
+            dia.selecionado = true;
         }
     }
 
     //render
     return (
-        <div key={index} onClick={selecionarDia} className={selecionado ? "selecionado" : ""}>{dia}</div>
+        <div key={index} onClick={selecionarDia} className={selecionado ? "selecionado" : ""}>{dia.dia}</div>
 
     )
 }
@@ -30,11 +39,7 @@ export default function TelaHabitos() {
     const [criandoHabito, setCriandoHabito] = useState(false)
     const [nomeHabito, setNomeHabito] = useState("");
     const [diasSelecionados, setDiasSelecionados] = useState([]);
-    const [habito, setHabito] = useState({
-        id: "",
-        name: nomeHabito,
-        days: dias
-    });
+    const [habito, setHabito] = useState({id: "", name: "", days: []});
 
     //logic
     function criarHabito() {
@@ -47,7 +52,17 @@ export default function TelaHabitos() {
 
     function salvarHabito(e) {
         e.preventDefault();
-        console.log(diasSelecionados);
+        setDiasSelecionados(dias.filter((item) => item.selecionado));
+        setHabito({        
+            id: "ainda n fiz aqui",
+            name: nomeHabito,
+            days: diasSelecionados
+        })
+        console.log({
+            id: "ainda n fiz aqui",
+            name: nomeHabito,
+            days: diasSelecionados
+        })
         
     }
 
