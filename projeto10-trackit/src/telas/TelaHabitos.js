@@ -3,11 +3,10 @@ import { useContext, useState } from "react";
 
 import UserContext from '../context/UserContext';
 
-const dias = [{id: "1", dia: "D", selecionado: false}, {id: "2", dia: "S", selecionado: false}, {id: "3", dia: "T", selecionado: false}, {id: "4", dia: "Q", selecionado: false}, {id: "5", dia: "Q", selecionado: false}, {id: "6", dia: "S", selecionado: false}, {id: "7", dia: "S", selecionado: false}]; // transformar um objeto pra saber se tá selecionado
+const dias = [{id: "1", dia: "D", selecionado: false}, {id: "2", dia: "S", selecionado: false}, {id: "3", dia: "T", selecionado: false}, {id: "4", dia: "Q", selecionado: false}, {id: "5", dia: "Q", selecionado: false}, {id: "6", dia: "S", selecionado: false}, {id: "7", dia: "S", selecionado: false}];
 
 function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
     //Estado
-    const [selecionado, setSelecionado] = useState(false);
 
     //logic
     function selecionarDia() {
@@ -17,7 +16,6 @@ function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
             dia.selecionado = true;
         }
         setDiasSelecionados(dias.filter((item) => item.selecionado));
-
     }
 
     //render
@@ -46,14 +44,6 @@ export default function TelaHabitos() {
 
     function salvarHabito(e) {
         e.preventDefault();
-        
-        alert("Clicado")
-        console.log({
-            id: "ainda n fiz aqui",
-            name: nomeHabito,
-            days: diasSelecionados
-        })
-        
     }
 
     //render
