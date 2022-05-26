@@ -12,23 +12,17 @@ function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
     //logic
     function selecionarDia() {
         if (dia.selecionado) {
-            setSelecionado(!selecionado);
-            if (diasSelecionados.includes(dia.id)) {
-                setSelecionado(!selecionado);
-                dia.selecionado = false;
-            } else {
-                dia.selecionado = true;
-            }
-            
+            dia.selecionado = false            
         } else {
-            setSelecionado(!selecionado);
             dia.selecionado = true;
         }
+        setDiasSelecionados(dias.filter((item) => item.selecionado));
+
     }
 
     //render
     return (
-        <div key={index} onClick={selecionarDia} className={selecionado ? "selecionado" : ""}>{dia.dia}</div>
+        <div key={index} onClick={selecionarDia} className={dia.selecionado ? "selecionado" : ""}>{dia.dia}</div>
 
     )
 }
@@ -52,12 +46,8 @@ export default function TelaHabitos() {
 
     function salvarHabito(e) {
         e.preventDefault();
-        setDiasSelecionados(dias.filter((item) => item.selecionado));
-        setHabito({        
-            id: "ainda n fiz aqui",
-            name: nomeHabito,
-            days: diasSelecionados
-        })
+        
+        alert("Clicado")
         console.log({
             id: "ainda n fiz aqui",
             name: nomeHabito,
