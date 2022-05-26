@@ -11,11 +11,12 @@ function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
     //logic
     function selecionarDia() {
         if (dia.selecionado) {
-            dia.selecionado = false            
+            dia.selecionado = false   
+            setDiasSelecionados([...diasSelecionados, dias.filter((item) => dia.id !== item.id)]);         
         } else {
             dia.selecionado = true;
+            setDiasSelecionados([...diasSelecionados, dia.id])
         }
-        setDiasSelecionados(dias.filter((item) => item.selecionado));
     }
 
     //render
@@ -44,6 +45,11 @@ export default function TelaHabitos() {
 
     function salvarHabito(e) {
         e.preventDefault();
+        const body = {
+            name: nomeHabito,
+            days: diasSelecionados
+        }
+        console.log(body)
     }
 
     //render
