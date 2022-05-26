@@ -29,7 +29,7 @@ export default function TelaCadastro() {
         promisse
             .then((response) => {
             console.log(response.data);
-            setInput(true);
+            setInput(false);
             navigate("/");
             })
             .catch((err) => {alert("Erro no Cadastro. tente novamente")})

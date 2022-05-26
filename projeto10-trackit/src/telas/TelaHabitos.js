@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext, useState } from "react";
+import axios from 'axios';
 
 import UserContext from '../context/UserContext';
 
@@ -33,6 +34,7 @@ export default function TelaHabitos() {
     const [nomeHabito, setNomeHabito] = useState("");
     const [diasSelecionados, setDiasSelecionados] = useState([]);
     const [habito, setHabito] = useState({id: "", name: "", days: []});
+    const [carregado, setCarregado] = useState(false)
 
     //logic
     function criarHabito() {
@@ -45,11 +47,37 @@ export default function TelaHabitos() {
 
     function salvarHabito(e) {
         e.preventDefault();
+        setCarregado(true)
         const body = {
             name: nomeHabito,
             days: diasSelecionados
         }
-        console.log(body)
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${user.token}`
+            }
+        }
+        const promisse = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config)
+        promisse
+            .then((response) => {
+            console.log(response.data);
+            setNomeHabito("");
+            setCarregado(false);
+            setCriandoHabito(false);
+            dias.map(dia => dia.selecionado = false)
+            })
+            .catch((err) => {
+
+                if (body.name === "") {
+                    alert("Preencha o nome do hábito")
+                }
+                if (body.days.length === 0) {
+                    alert("Selecione pelo menos um dia")
+                }
+                console.log("Deu ruim")
+                console.log(err.response.status)
+            })
+
     }
 
     //render
@@ -72,6 +100,7 @@ export default function TelaHabitos() {
                             type="text"
                             placeholder='Nome do Hábito'
                             value={nomeHabito}
+                            disabled={carregado}
                             onChange={(e) => {setNomeHabito(e.target.value)}}
                         />
                         <DiasDaSemana>
@@ -86,7 +115,7 @@ export default function TelaHabitos() {
                         </DiasDaSemana>
                         <SalvarHabito>
                             <p onClick={cancelarHabito}>Cancelar</p>
-                            <button onClick={(e) => salvarHabito(e)}>Salvar</button>
+                            <button onClick={(e) => salvarHabito(e)} disabled={carregado} >Salvar</button>
                         </SalvarHabito>
                     </form>
                 </CriarHabitos>
