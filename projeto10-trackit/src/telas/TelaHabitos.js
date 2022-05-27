@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useContext, useState, useEffect } from "react";
 import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
 
 import { BsTrash } from 'react-icons/bs';
 
@@ -14,12 +15,13 @@ function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
     //logic
     function selecionarDia() {
         if (dia.selecionado) {
-            dia.selecionado = false   
+            dia.selecionado = false;   
             setDiasSelecionados([...diasSelecionados, dias.filter((item) => dia.id !== item.id)]);         
         } else {
             dia.selecionado = true;
             setDiasSelecionados([...diasSelecionados, dia.id])
         }
+        console.log(diasSelecionados)
     }
 
     //render
@@ -118,9 +120,9 @@ export default function TelaHabitos() {
         <Tela>
             <Header>
                 <h1>TrackIt</h1>
-                <div>
-                    {/*<img src={user.image} alt={user.name}/>*/}
-                </div>
+                <Imagem>
+                    {<img src={user.image} alt={user.name}/>}
+                </Imagem>
             </Header>
             <MeusHabitos>
                 <h3>Meus hábitos</h3>
@@ -174,7 +176,7 @@ export default function TelaHabitos() {
             }
             <Footer>
                 <h5>Hábitos</h5>
-                <BotaoHoje>Hoje</BotaoHoje>
+                <Link to="/hoje"> <BotaoHoje>Hoje</BotaoHoje> </Link>
                 <h5>Histórico</h5>
             </Footer>
         </Tela>
@@ -205,18 +207,16 @@ const Header = styled.header`
         font-size: 40px;
         color: #FFFFFF;
     }
+`;
 
-    div {
+const Imagem = styled.div`
+    img {
         width: 51px;
         height: 51px;
-        border-radius: 100px;
-        background-color: red;
-    }
-
-    img {
+        border-radius: 100px;   
+        object-fit: cover;
         object-fit: cover;
     }
-
 `;
 
 const ExibirHabitos = styled.div`
@@ -236,9 +236,7 @@ const Habito = styled.div`
         color: #666666;
         font-size: 20px;
     }
-
-    
-`
+`;
 
 const Icone = styled.div`
     width: 13px;
@@ -336,11 +334,11 @@ const DiasDaSemana = styled.div`
         color: #DBDBDB;
     }
 
-    div:active{
+    div:active {
         transform: translateY(4px);
     }
 
-    .selecionado{
+    .selecionado {
         background-color: #CFCFCF;
         border: 1px solid #CFCFCF;
         color: #FFFFFF;
