@@ -294,6 +294,7 @@ const DiasDaSemana = styled.div`
         margin-top: 10px;
         margin-right: 12px;
         opacity: ${props => props.habilitado ? 0.3 : 1};
+        pointer-events: ${props => props.habilitado ? "none" : "auto"};
         
         font-size: 20px;
         font-weight: bold;
