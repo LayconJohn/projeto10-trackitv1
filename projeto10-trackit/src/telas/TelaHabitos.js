@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useContext, useState, useEffect } from "react";
 import axios from 'axios';
 
+import { BsTrash } from 'react-icons/bs';
+
 import UserContext from '../context/UserContext';
 
 const dias = [{id: "1", dia: "D", selecionado: false}, {id: "2", dia: "S", selecionado: false}, {id: "3", dia: "T", selecionado: false}, {id: "4", dia: "Q", selecionado: false}, {id: "5", dia: "Q", selecionado: false}, {id: "6", dia: "S", selecionado: false}, {id: "7", dia: "S", selecionado: false}];
@@ -94,7 +96,21 @@ export default function TelaHabitos() {
                 console.log("Deu ruim")
                 console.log(err.response.status)
             })
+    }
 
+    function deletarHabito(i) {
+        console.log(habito[i].id)
+        const idHabito = habito[i].id
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${user.token}`
+            }
+        };
+        const promisse = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}`, config);
+        promisse
+            .then((response) => {
+                console.log("Post excluído")
+            });
     }
 
     //render
@@ -143,9 +159,10 @@ export default function TelaHabitos() {
                 </MensagemSemHabitoCriado>
             : 
                 <ExibirHabitos>
-                    {habito.map((h, i) => {
-                        return <Habito key={i}>
+                    {habito.map((h, index) => {
+                        return <Habito key={index}>
                         <p>{h.name}</p>
+                        <Icone onClick={(i) => {deletarHabito(index)}}> <BsTrash /> </Icone>  
                         <DiasDaSemana>
                             {["D", "S", "T", "Q", "Q", "S", "S"].map((dia, index) => {
                                 return <div key={index} className={h.days.includes(index+1) ? "selecionado" : ""}>{dia}</div>
@@ -168,25 +185,6 @@ const Tela = styled.div`
     width: 375px;
 `;
 
-const ExibirHabitos = styled.div`
-    margin: 0 auto;
-    box-sizing: border-box;
-    overflow-y: scroll;
-    padding-bottom: 90px;
-`;
-
-const Habito = styled.div`
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-    position: relative;
-    padding: 15px;
-
-    p{
-        color: #666666;
-        font-size: 20px;
-    }
-`
-
 const Header = styled.header`
     width: 375px;
     height: 70px;
@@ -201,6 +199,7 @@ const Header = styled.header`
     padding-right: 18px;
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
     
     h1 {
         font-size: 40px;
@@ -218,7 +217,42 @@ const Header = styled.header`
         object-fit: cover;
     }
 
+`;
+
+const ExibirHabitos = styled.div`
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    padding-bottom: 90px;
+`;
+
+const Habito = styled.div`
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding: 15px;
+
+    p{
+        color: #666666;
+        font-size: 20px;
+    }
+
+    
 `
+
+const Icone = styled.div`
+    width: 13px;
+    height: 15px;
+    color: #666666;
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    padding-right: 10px;
+
+    &:active{
+        transform: scale(150%);
+    }
+`;
 
 const MeusHabitos = styled.div`
     width: 100%;
@@ -234,6 +268,7 @@ const MeusHabitos = styled.div`
         font-size: 22px;
     }
 `;
+
 
 const BotaoCriarHabito = styled.div`
     width: 40px;
@@ -351,20 +386,6 @@ const MensagemSemHabitoCriado = styled.p`
     text-align: center;
 `;
 
-const Footer = styled.div`
-    width: 100%;
-    height: 70px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: #FFFFFF;
-    display: flex;
-    justify-content: space-around;
-    font-family: 'Lexend Deca';
-    color: #52B6FF;
-    box-shadow: 0 0 1em rgba(0, 0, 0, 0.35);
-`;
-
 const BotaoHoje = styled.div`
     width: 91px;
     height: 91px;
@@ -383,4 +404,18 @@ const BotaoHoje = styled.div`
     &:active {
         transform: translateZ(4px);
     }
+`;
+
+const Footer = styled.div`
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-around;
+    font-family: 'Lexend Deca';
+    color: #52B6FF;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.35);
 `;
