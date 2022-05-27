@@ -50,7 +50,7 @@ export default function TelaHabitos() {
             setHabito(response.data);
             })
             .catch((err) => {
-                console.log(err.response.status)
+                console.log(err.response.status);
             })
 
     }, [habito])
@@ -120,7 +120,7 @@ export default function TelaHabitos() {
                             disabled={carregado}
                             onChange={(e) => {setNomeHabito(e.target.value)}}
                         />
-                        <DiasDaSemana>
+                        <DiasDaSemana habilitado={carregado}>
                             {dias.map((dia, index) => {
                                 return <DiaDaSemana 
                                     dia={dia}
@@ -293,6 +293,7 @@ const DiasDaSemana = styled.div`
         align-items: center;
         margin-top: 10px;
         margin-right: 12px;
+        opacity: ${props => props.habilitado ? 0.3 : 1};
         
         font-size: 20px;
         font-weight: bold;
