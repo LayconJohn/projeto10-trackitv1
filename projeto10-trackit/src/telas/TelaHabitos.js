@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from 'axios';
 
 import UserContext from '../context/UserContext';
@@ -33,31 +33,48 @@ export default function TelaHabitos() {
     const [criandoHabito, setCriandoHabito] = useState(false)
     const [nomeHabito, setNomeHabito] = useState("");
     const [diasSelecionados, setDiasSelecionados] = useState([]);
-    const [habito, setHabito] = useState({id: "", name: "", days: []});
+    const [habito, setHabito] = useState([]);
     const [carregado, setCarregado] = useState(false)
 
     //logic
-    function criarHabito() {
-        setCriandoHabito(true)
-    }
 
-    function cancelarHabito(){
-        setCriandoHabito(false)
-    }
-
-    function salvarHabito(e) {
-        e.preventDefault();
-        setCarregado(true)
-        const body = {
-            name: nomeHabito,
-            days: diasSelecionados
-        }
+    useEffect(() => {
         const config = {
             headers: {
                 "Authorization": `Bearer ${user.token}`
             }
-        }
-        const promisse = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config)
+        };
+        const promisse = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config)
+        promisse
+            .then((response) => {
+            setHabito(response.data);
+            })
+            .catch((err) => {
+                console.log(err.response.status)
+            })
+
+    }, [habito])
+    function criarHabito() {
+        setCriandoHabito(true);
+    }
+
+    function cancelarHabito(){
+        setCriandoHabito(false);
+    }
+
+    function salvarHabito(e) {
+        e.preventDefault();
+        setCarregado(true);
+        const body = {
+            name: nomeHabito,
+            days: diasSelecionados
+        };
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${user.token}`
+            }
+        };
+        const promisse = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config);
         promisse
             .then((response) => {
             console.log(response.data);
@@ -120,9 +137,24 @@ export default function TelaHabitos() {
                     </form>
                 </CriarHabitos>
             : ""}
-            <MensagemSemHabitoCriado>
-                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-            </MensagemSemHabitoCriado>
+            {habito.length === 0 ? 
+                <MensagemSemHabitoCriado>
+                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                </MensagemSemHabitoCriado>
+            : 
+                <ExibirHabitos>
+                    {habito.map((h, i) => {
+                        return <Habito key={i}>
+                        <p>{h.name}</p>
+                        <DiasDaSemana>
+                            {["D", "S", "T", "Q", "Q", "S", "S"].map((dia, index) => {
+                                return <div key={index} className={h.days.includes(index+1) ? "selecionado" : ""}>{dia}</div>
+                            })}
+                        </DiasDaSemana>
+                    </Habito>
+                    })}
+                </ExibirHabitos>
+            }
             <Footer>
                 <h5>Hábitos</h5>
                 <BotaoHoje>Hoje</BotaoHoje>
@@ -134,6 +166,25 @@ export default function TelaHabitos() {
 
 const Tela = styled.div`
     width: 375px;
+`;
+
+const ExibirHabitos = styled.div`
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    padding-bottom: 90px;
+`;
+
+const Habito = styled.div`
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding: 15px;
+
+    p{
+        color: #666666;
+        font-size: 20px;
+    }
 `
 
 const Header = styled.header`
