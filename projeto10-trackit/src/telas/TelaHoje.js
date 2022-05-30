@@ -21,14 +21,21 @@ function HabitoIndividual({habito, user}) {
                 Authorization: `Bearer ${user.token}`
             }
         };
-        const promisse = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitoId}/check`, null ,config);
+        const promisse = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitoId}/uncheck`, null ,config);
         promisse
             .then((response) => {
-                console.log("Hábito marcado com sucesso")
+                console.log("Removido!")
             })
             .catch((err) => {
-                if (err.response.data === 400) {
-                    alert("Erro ao finalizar hábito. Tente relogar novamente.")
+                if (err.response.status === 400) {
+                    const promessa = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitoId}/check`, null, config);
+                    promessa
+                        .then(() => {
+                            console.log("Hábito marcado com sucesso")
+                        })
+                        .catch(() => {
+                            alert("Erro ao finalizar hábito. Tente relogar novamente.");
+                        })
                 } else {
                     console.log("Erro", err.response.status)
                 }
