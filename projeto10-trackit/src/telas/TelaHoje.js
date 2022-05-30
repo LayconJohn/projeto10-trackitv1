@@ -8,12 +8,11 @@ import { BsCheckSquareFill } from 'react-icons/bs';
 import UserContext from '../context/UserContext';
 
 
-function HabitoIndividual({habito, user}) {
-    // Estado
-
+function HabitoIndividual({habito, user, habitosMarcados, setHabitosMarcados, habitoConcluido, setHabitoConcluido}) {
     // Logic
 
     function concluirHabito() {
+        //(Un)Check no hábito
         console.log(habito.id);
         const habitoId = habito.id;
         const config = {
@@ -25,13 +24,18 @@ function HabitoIndividual({habito, user}) {
         promisse
             .then((response) => {
                 console.log("Removido!")
+                setHabitosMarcados(habitosMarcados-=1)
+                console.log(habitosMarcados)
             })
             .catch((err) => {
+                console.log(err)
                 if (err.response.status === 400) {
                     const promessa = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitoId}/check`, null, config);
                     promessa
                         .then(() => {
                             console.log("Hábito marcado com sucesso")
+                            setHabitosMarcados(habitosMarcados+=1)
+                            console.log(habitosMarcados)
                         })
                         .catch(() => {
                             alert("Erro ao finalizar hábito. Tente relogar novamente.");
@@ -40,6 +44,9 @@ function HabitoIndividual({habito, user}) {
                     console.log("Erro", err.response.status)
                 }
             })
+
+        //Verificar se algum hábito já foi selecionado
+
     }
 
     //render
@@ -60,6 +67,7 @@ export default function TelaHoje() {
     const {user, setUser} = useContext(UserContext);
     const [habitoConcluido, setHabitoConcluido] = useState(false);
     const [habitosHoje, setHabitosHoje] = useState([]);
+    const [habitosMarcados, setHabitosMarcados] = useState(0);
     
     //Logic
     useEffect(() => {
@@ -90,14 +98,18 @@ export default function TelaHoje() {
             <MeusHabitos>
                 <h3>Meus hábitos</h3>
                 <HabitosConcluidos concluido={habitoConcluido}>
-                    {habitoConcluido ? "67% dos hábitos concluídos" : "Nenhum hábito concluído ainda"}
+                    {true ? `${habitosMarcados} / ${habitosHoje.length} dos hábitos concluídos` : "Nenhum hábito concluído ainda"}
                 </HabitosConcluidos>
             </MeusHabitos>
             <ExibirHabitos>
                 {habitosHoje.map((habito, index) => {
                     return <HabitoIndividual
                         habito={habito}
-                        user={user}                   
+                        user={user}    
+                        habitosMarcados={habitosMarcados}
+                        setHabitosMarcados={setHabitosMarcados} 
+                        habitosHoje={habitosHoje}
+                                      
                     />
                 })}
                    
