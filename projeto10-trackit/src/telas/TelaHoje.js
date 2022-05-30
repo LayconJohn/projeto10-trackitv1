@@ -8,20 +8,31 @@ import { BsCheckSquareFill } from 'react-icons/bs';
 import UserContext from '../context/UserContext';
 
 
-function HabitoIndividual({habito}) {
+function HabitoIndividual({habito, user}) {
     // Estado
 
     // Logic
 
-    function concluirHabito(habito) {
-        if (habito.done) {
-            habito.done = false;
-            habito.currentSequence --
-        } else {
-            habito.done = true;
-            habito.currentSequence ++
-        }
-        //Isso vai mudar quando for fazer o post
+    function concluirHabito() {
+        console.log(habito.id);
+        const habitoId = habito.id;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        };
+        const promisse = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitoId}/check`, null ,config);
+        promisse
+            .then((response) => {
+                console.log("Hábito marcado com sucesso")
+            })
+            .catch((err) => {
+                if (err.response.data === 400) {
+                    alert("Erro ao finalizar hábito. Tente relogar novamente.")
+                } else {
+                    console.log("Erro", err.response.status)
+                }
+            })
     }
 
     //render
@@ -31,7 +42,8 @@ function HabitoIndividual({habito}) {
                 <p>Sequência atual: {habito.currentSequence} dias 
                     <br />Seu recorde: {habito.highestSequence} dias
                 </p>
-                <Icone concluido={habito.done} onClick={(habito) => concluirHabito(habito)}/>
+                <div onClick={concluirHabito}> <Icone concluido={habito.done}/> </div>
+                
             </Habito>
     )
 }
@@ -52,12 +64,12 @@ export default function TelaHoje() {
         const promisse = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config)
         promisse
             .then((response) => {
-            setHabitosHoje(response.data)
+                setHabitosHoje(response.data)
             })
             .catch((err) => {
                 console.log("Deu erro" + err.response.status)
             })
-    }, [])
+    }, [habitosHoje])
 
     //Render
     return (
@@ -75,17 +87,18 @@ export default function TelaHoje() {
                 </HabitosConcluidos>
             </MeusHabitos>
             <ExibirHabitos>
-                {habitosHoje.map((habito) => {
+                {habitosHoje.map((habito, index) => {
                     return <HabitoIndividual
-                    habito={habito}                    
+                        habito={habito}
+                        user={user}                   
                     />
                 })}
                    
             </ExibirHabitos>
             <Footer>
-                <h5>Hábitos</h5>
+                <Link to="/habitos"> <h5>Hábitos</h5> </Link> 
                 <Link to="/hoje"> <BotaoHoje>Hoje</BotaoHoje> </Link>
-                <h5>Histórico</h5>
+                <Link to="/historico"><h5>Histórico</h5></Link> 
             </Footer>
         </Tela>
     )

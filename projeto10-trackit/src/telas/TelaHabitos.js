@@ -21,7 +21,6 @@ function DiaDaSemana({dia, index, diasSelecionados, setDiasSelecionados}) {
             dia.selecionado = true;
             setDiasSelecionados([...diasSelecionados, dia.id])
         }
-        console.log(diasSelecionados)
     }
 
     //render
@@ -57,7 +56,8 @@ export default function TelaHabitos() {
                 console.log(err.response.status);
             })
 
-    }, [habito])
+    }, [habito]);
+
     function criarHabito() {
         setCriandoHabito(true);
     }
@@ -98,10 +98,9 @@ export default function TelaHabitos() {
                 console.log("Deu ruim")
                 console.log(err.response.status)
             })
-    }
+    };
 
     function deletarHabito(i) {
-        console.log(habito[i].id)
         const idHabito = habito[i].id
         const config = {
             headers: {
@@ -113,7 +112,7 @@ export default function TelaHabitos() {
             .then((response) => {
                 console.log("Post excluído")
             });
-    }
+    };
 
     //render
     return (
@@ -175,9 +174,9 @@ export default function TelaHabitos() {
                 </ExibirHabitos>
             }
             <Footer>
-                <h5>Hábitos</h5>
+                <Link to="/habitos"> <h5>Hábitos</h5> </Link> 
                 <Link to="/hoje"> <BotaoHoje>Hoje</BotaoHoje> </Link>
-                <h5>Histórico</h5>
+                <Link to="/historico"> <h5>Histórico</h5> </Link> 
             </Footer>
         </Tela>
     )
