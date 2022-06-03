@@ -1,7 +1,17 @@
-export default function App() {
+import styled from 'styled-components';
+
+import Topo from "./componentes/Topo";
+
+function App() {
     return (
-        <>
-            <h1>Teste</h1>
-        </>
+        <Aplicativo>
+            <Topo />
+        </Aplicativo>
     )
 }
+
+const Aplicativo = styled.div`
+    box-sizing: border-box;
+`
+
+export default App;
