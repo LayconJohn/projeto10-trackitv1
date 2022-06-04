@@ -23,4 +23,13 @@ const LogoTexto = styled.h4`
         font-weight: bold;
         margin: 22px 55px;
         color: ${props => props.cor};
+        cursor: pointer;
+        transition: all .2s;
+
+
+        &:active {
+            transform: translateY(1px);
+            box-shadow: 6px 6px 12px #c5c5c5,
+             -6px -6px 12px #ffffff;
+        }
 `

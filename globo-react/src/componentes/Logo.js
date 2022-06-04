@@ -17,6 +17,12 @@ const Imagem = styled.div`
 
     img {
         width: 170px;
-        height: 40px;   
+        height: 40px;  
+        cursor: pointer; 
+    }
+
+    img:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
     }
 `
