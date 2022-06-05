@@ -24,10 +24,12 @@ const Imagem = styled.img`
     object-fit: cover;
     border-radius: 12px;
     cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
 
     &:active {
         width: 202px;
         height: 102px;
+        animation: sh0 0.5s ease-in-out both;
     }
 `;
 
