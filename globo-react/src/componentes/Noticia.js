@@ -23,12 +23,23 @@ const Imagem = styled.img`
     height: 100px;
     object-fit: cover;
     border-radius: 12px;
+    cursor: pointer;
+
+    &:active {
+        width: 202px;
+        height: 102px;
+    }
 `;
 
 const Titulo = styled.span`
     font-size: 14px;
     color: #C4170C;
     margin: 6px 0px;
+    cursor: pointer;
+
+    &:active {
+        font-size: 16px;
+    }
 `;
 
 const SubTitulo = styled.span`
@@ -37,6 +48,11 @@ const SubTitulo = styled.span`
     color: #2F3134;
     word-wrap: break-word;
     margin: 8px 0px;
+    cursor: pointer;
+
+    &:active {
+        font-size: 16px;
+    }
 `;
 
 const Legenda = styled.span`
@@ -44,4 +60,9 @@ const Legenda = styled.span`
     color: #2F3134;
     word-wrap: break-word;
     margin: 5px 0px;
+    cursor: pointer;
+        
+    &:active {
+        font-size: 16px;
+    }
 `;

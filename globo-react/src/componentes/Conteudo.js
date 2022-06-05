@@ -54,11 +54,21 @@ const Noticias = styled.div`
        font-size: 52px;
        color: #C4160C;
        word-wrap: break-word;
+       cursor: pointer;
    } 
+
+   h3:active{
+       font-size: 56px;
+   }
 
    p {
        font-size: 18px;
        color: #303134;
        word-wrap: break-word;
+       cursor: pointer;
+   }
+
+   p:active{
+       font-size:22px
    }
 `;
