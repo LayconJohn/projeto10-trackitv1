@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-export default function Noticia({index, imagem, titulo, subtitulo, legenda}) {
+export default function Noticia({index, imagem, titulo, subtitulo, legenda, color}) {
     return (
         <Card key={index}>
            {imagem === "" ? "" : <Imagem src={imagem} />}
-           <Titulo>Além do presidente</Titulo> 
-           <SubTitulo>CPI deve pedir indiciamento de filhos de Bolsonaro</SubTitulo>
-           <Legenda>A evangélicos, Bolsonaro diz ‘chorar sozinho em casa’</Legenda>
+           <Titulo color={color}>{titulo}</Titulo> 
+           <SubTitulo>{subtitulo}</SubTitulo>
+           <Legenda>{legenda}</Legenda>
         </Card>
     )
 }
@@ -33,7 +33,7 @@ const Imagem = styled.img`
 
 const Titulo = styled.span`
     font-size: 14px;
-    color: #C4170C;
+    color: ${props => props.color};
     margin: 6px 0px;
     cursor: pointer;
 
@@ -61,7 +61,7 @@ const Legenda = styled.span`
     word-wrap: break-word;
     margin: 5px 0px;
     cursor: pointer;
-        
+
     &:active {
         font-size: 16px;
     }
