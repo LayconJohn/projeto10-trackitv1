@@ -41,6 +41,7 @@ export default function Conteudo() {
                 })}       
                 </CardNoticias>
             </Noticias>
+            <BordaSeparadora></BordaSeparadora>
             <Noticias>
                 {noticiasSecundarias.map((noticia, index) => {
                     return <Noticia 
@@ -94,4 +95,11 @@ const Noticias = styled.div`
    p:active{
        font-size:22px
    }
+`;
+
+const BordaSeparadora = styled.div`
+    background-color: #EBEDEF;
+    width: 1px;
+    height: 845px;
+    margin-top: 20px;
 `;
